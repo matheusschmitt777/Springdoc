@@ -18,6 +18,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.matheusschmittmkt.springboot.entities.User;
 import com.matheusschmittmkt.springboot.services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
@@ -26,6 +30,12 @@ public class UserResource {
 	private UserService service;
 	
 	@GetMapping
+	@Operation(summary="List all users", description  = "User list")
+	@ApiResponses(value = { 
+			  @ApiResponse(responseCode = "200", description = "The request was successfully executed."),
+			  @ApiResponse(responseCode = "400", description = "Invalid request."), 
+			  @ApiResponse(responseCode = "403", description = "You don't have permission to access this feature."), 
+			  @ApiResponse(responseCode = "404", description = "Resource not found.")})
 	public ResponseEntity<List<User>> findAll(){
 		List<User> list = service.findAll();
 		return ResponseEntity.ok().body(list);
